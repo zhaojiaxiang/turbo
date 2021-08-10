@@ -1,0 +1,124 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-18 11:20+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\bases\messages.py:14
+msgid "ok"
+msgstr "OK"
+
+#: .\bases\messages.py:16
+msgid "retrieve ok"
+msgstr "Retrieved successfully"
+
+#: .\bases\messages.py:17
+msgid "create ok"
+msgstr "Created successfully"
+
+#: .\bases\messages.py:18
+msgid "update ok"
+msgstr "Updated successfully"
+
+#: .\bases\messages.py:19
+msgid "delete ok"
+msgstr "Deleted successfully"
+
+#: .\bases\messages.py:23
+msgid "validate ng"
+msgstr "Validation failed"
+
+#: .\bases\messages.py:25
+msgid "form validate ng"
+msgstr "Form validation failed"
+
+#: .\bases\messages.py:27
+msgid "business validate ng"
+msgstr "Business validation failed"
+
+#: .\bases\messages.py:30
+msgid "ng"
+msgstr "NG"
+
+#: .\bases\messages.py:33
+msgid "retrieve ng"
+msgstr "Retrieve failed"
+
+#: .\bases\messages.py:35
+msgid "create ng"
+msgstr "Create failed"
+
+#: .\bases\messages.py:37
+msgid "update ng"
+msgstr "Update failed"
+
+#: .\bases\messages.py:39
+msgid "delete ng"
+msgstr "Delete failed"
+
+#: .\bases\messages.py:41
+msgid "not found"
+msgstr "Not found"
+
+#: .\bases\messages.py:43
+#, python-format
+msgid "method %s not allowed"
+msgstr "Method %s not allowed"
+
+#: .\bases\messages.py:47
+msgid "error user"
+msgstr "User does not exist"
+
+#: .\bases\messages.py:49
+msgid "error password"
+msgstr "Wrong password"
+
+#: .\bases\messages.py:51
+msgid "user invalid"
+msgstr "User has expired"
+
+#: .\bases\messages.py:53
+msgid "user unauthorized"
+msgstr "User is not authenticated"
+
+#: .\bases\messages.py:55
+msgid "user authentication failed"
+msgstr "User authentication failed"
+
+#: .\bases\messages.py:57
+msgid "user permission denied"
+msgstr "User has no permissions"
+
+#: .\bases\messages.py:59
+msgid "token is invalid or expired"
+msgstr "Token is invalid or expired"
+
+#: .\bases\messages.py:62
+msgid "db ng"
+msgstr "Database operation exception"
+
+#: .\bases\messages.py:63
+msgid "db unique ng"
+msgstr "Primary key conflict(or Violation of uniqueness constraint)"
+
+#: .\carrera\settings.py:157
+msgid "English"
+msgstr "English"
+
+#: .\carrera\settings.py:158
+msgid "中文"
+msgstr "Chinese"
