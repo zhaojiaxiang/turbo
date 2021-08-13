@@ -1,5 +1,6 @@
 import django_filters
 
+from checkouts.models import CheckOutFiles
 from qa.models import QaHead, QaDetail, Qadfproof
 
 
@@ -29,3 +30,11 @@ class QaDetailProofFilter(django_filters.rest_framework.FilterSet):
     class Meta:
         model = Qadfproof
         fields = ("qadf", )
+
+
+class QaSlipNoCheckoutFilter(django_filters.rest_framework.FilterSet):
+    fslipno = django_filters.CharFilter(field_name='fslipno', lookup_expr='exact')
+
+    class Meta:
+        model = CheckOutFiles
+        fields = ("fslipno", )

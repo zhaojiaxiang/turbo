@@ -6,6 +6,7 @@ from django.db.models import Max, Q, Sum
 from math import ceil
 from rest_framework import serializers
 
+from checkouts.models import CheckOutFiles
 from liaisons.models import Liaisons
 from qa.models import QaHead, QaDetail, Qadfproof
 from reviews.models import CodeReview
@@ -242,6 +243,17 @@ class QaHeadModifyDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = QaHead
         fields = ('id', 'fttlcodelines', 'fmodifiedlines', 'fcomplexity', 'fselflevel', 'fstatus')
+
+
+class QaSlipNoCheckOutObjectSerializer(serializers.ModelSerializer):
+    value = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CheckOutFiles
+        fields = ('value', 'fchkoutobj')
+
+    def get_value(self, obj):
+        return obj['fchkoutobj']
 
 
 class PCLQaClass1Serializer(serializers.ModelSerializer):

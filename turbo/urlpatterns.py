@@ -23,7 +23,7 @@ from qa.views import MCLQaHeadViewSet, QaDetailViewSet, QaDetailUpdateResultView
     QaDetailUpdateContentTextViewSet, QaHeadUpdateObjectSummaryViewSet, QaHeadModifyDetailViewSet, \
     QaHeadTargetAndActualViewSet, CkEditorImageUpload, CkEditorFileUpload, RecoverFile, PCLQaClass1ViewSet, \
     PCLQaClass2ViewSet, PCLCommitJudgment, TestResultDefaultOK, QaDetailApprovalContentTextViewSet, \
-    QadfProofContentTextViewSet, CodeReviewInspection
+    QadfProofContentTextViewSet, CodeReviewInspection, QaSlipNoCheckOutObject
 from reviews.views import DesignReviewViewSet, CodeReviewViewSet
 from systems.views import SystemsViewSet
 from projects.views import ProjectsViewSet
@@ -60,6 +60,8 @@ qa_router.register('mcl_detail_approval_content_text', QaDetailApprovalContentTe
                    basename='mcl_detail_approval_content_text')
 qa_router.register('mcl_detail_proof_content_text', QadfProofContentTextViewSet,
                    basename='mcl_detail_proof_content_text')
+qa_router.register('qa_slip_no_checkout_object', QaSlipNoCheckOutObject,
+                   basename='qa_slip_no_checkout_object')
 
 checkout_router = DefaultRouter()
 checkout_router.register('pb_file_checkout', CheckOutFilesViewSet, basename='pb_file_checkout')

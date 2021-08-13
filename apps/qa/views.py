@@ -13,12 +13,13 @@ from sendfile import sendfile
 
 from bases.response import APIResponse
 from bases import viewsets, mixins
-from qa.filters import QaHeadFilter, QaDetailFilter, QaDetailProofFilter
+from checkouts.models import CheckOutFiles
+from qa.filters import QaHeadFilter, QaDetailFilter, QaDetailProofFilter, QaSlipNoCheckoutFilter
 from qa.models import QaHead, QaDetail, Qadfproof
 from qa.serializers import QaHeadSerializer, QaDetailSerializer, QaDetailUpdateResultSerializer, \
     QaDetailUpdateContentTextSerializer, QaHeadUpdateObjectSummarySerializer, QaHeadModifyDetailSerializer, \
     QaHeadTargetAndActualSerializer, PCLQaClass1Serializer, PCLQaClass2Serializer, \
-    QaDetailApprovalContentTextSerializer, QadfproofContentTextSerializer
+    QaDetailApprovalContentTextSerializer, QadfproofContentTextSerializer, QaSlipNoCheckOutObjectSerializer
 from reviews.models import CodeReview
 from utils.middleware.logger.handler import create_folder
 
@@ -151,6 +152,15 @@ class PCLQaClass2ViewSet(mixins.APIListModelMixin, mixins.APIRetrieveModelMixin,
         queryset = QaDetail.objects.filter(qahf_id__exact=qahf, fclass1__exact=class1).values('qahf_id',
                                                                                               'fclass1').distinct()
         return queryset
+
+
+class QaSlipNoCheckOutObject(mixins.APIListModelMixin, mixins.APIRetrieveModelMixin, GenericViewSet):
+
+    serializer_class = QaSlipNoCheckOutObjectSerializer
+    queryset = CheckOutFiles.objects.values('fchkoutobj').all()
+
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    filter_class = QaSlipNoCheckoutFilter
 
 
 class PCLCommitJudgment(APIView):
