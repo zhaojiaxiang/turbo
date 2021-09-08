@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from sendfile import sendfile
 
+from bases.pagination import APIPageNumberPagination
 from bases.response import APIResponse
 from bases import viewsets, mixins
 from checkouts.models import CheckOutFiles
@@ -89,8 +90,31 @@ class QaDetailViewSet(viewsets.APIModelViewSet):
     queryset = QaDetail.objects.all().order_by('fsortrule', 'fclass1', 'fclass2', 'fregression', '-pk')
     serializer_class = QaDetailSerializer
 
+    pagination_class = APIPageNumberPagination
+
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filter_class = QaDetailFilter
+
+
+class BatchNewQaDetail(APIView):
+
+    @transaction.atomic()
+    def post(self, request):
+        try:
+            user = request.user
+            batch_data = request.data['data']
+
+            batch_qa = []
+            for qa in batch_data:
+                batch_qa.append(
+                    QaDetail(fclass1=qa['fclass1'], fregression=qa['fregression'], fcontent=qa['fcontent'],
+                             fsortrule=qa['fsortrule'], qahf_id=qa['qahf'], fimpusr=user.name, fentusr=user.name,
+                             fupdteprg='QA Batch New'))
+
+            QaDetail.objects.bulk_create(batch_qa)
+            return APIResponse()
+        except Exception as ex:
+            return APIResponse(ex)
 
 
 class QaDetailUpdateResultViewSet(mixins.APIListModelMixin, mixins.APIRetrieveModelMixin, mixins.APIUpdateModelMixin,
@@ -155,7 +179,6 @@ class PCLQaClass2ViewSet(mixins.APIListModelMixin, mixins.APIRetrieveModelMixin,
 
 
 class QaSlipNoCheckOutObject(mixins.APIListModelMixin, mixins.APIRetrieveModelMixin, GenericViewSet):
-
     serializer_class = QaSlipNoCheckOutObjectSerializer
     queryset = CheckOutFiles.objects.values('fchkoutobj').all()
 
@@ -191,6 +214,7 @@ class TestResultDefaultOK(APIView):
     MCL和PCL列表中，点击Default OK按钮，将该测试对象下所有未录入结果的测试项默认设置为 “OK”
     """
 
+    @transaction.atomic()
     def put(self, request):
         user = request.user
         try:
@@ -202,6 +226,7 @@ class TestResultDefaultOK(APIView):
                     detail.ftestusr = user.name
                     detail.ftestdte = datetime.datetime.now().strftime('%Y-%m-%d')
                     detail.save()
+            return APIResponse()
         except Exception as ex:
             return APIResponse(ex)
 
@@ -237,27 +262,30 @@ class CkEditorImageUpload(APIView):
     """
 
     def post(self, request):
-        image = request.FILES.get('file')
+        try:
+            image = request.FILES.get('file')
 
-        extension = image.name.split('.')[1].lower()
+            extension = image.name.split('.')[1].lower()
 
-        image_name = str(uuid.uuid4()) + '.' + extension
+            image_name = str(uuid.uuid4()) + '.' + extension
 
-        upload_path = os.path.join("media/upload/image", image_name[0], image_name[1])
+            upload_path = os.path.join("media/upload/image", image_name[0], image_name[1])
 
-        create_folder(upload_path)
+            create_folder(upload_path)
 
-        image_save_path = os.path.join(upload_path, image_name)
+            image_save_path = os.path.join(upload_path, image_name)
 
-        # 保存单个文件
-        with open(image_save_path, 'wb') as f:
-            for i in image.chunks():
-                f.write(i)
+            # 保存单个文件
+            with open(image_save_path, 'wb') as f:
+                for i in image.chunks():
+                    f.write(i)
 
-        ret_url = os.path.join("files", image_name)
+            ret_url = os.path.join("files", image_name)
 
-        data = {"code": 0, "msg": "success", "data": {"url": ret_url}}
-        return APIResponse(data)
+            data = {"code": 0, "msg": "success", "data": {"url": ret_url}}
+            return APIResponse(data)
+        except Exception as ex:
+            return APIResponse(ex)
 
 
 class CkEditorFileUpload(APIView):
@@ -266,27 +294,30 @@ class CkEditorFileUpload(APIView):
     """
 
     def post(self, request):
-        orig_file = request.FILES.get('file')
+        try:
+            orig_file = request.FILES.get('file')
 
-        extension = orig_file.name.split('.')[1].lower()
+            extension = orig_file.name.split('.')[1].lower()
 
-        file_name = "T" + str(uuid.uuid4()) + '.' + extension
+            file_name = "T" + str(uuid.uuid4()) + '.' + extension
 
-        upload_path = os.path.join("media/upload/image", file_name[0], file_name[1])
+            upload_path = os.path.join("media/upload/image", file_name[0], file_name[1])
 
-        create_folder(upload_path)
+            create_folder(upload_path)
 
-        file_path = os.path.join(upload_path, file_name)
+            file_path = os.path.join(upload_path, file_name)
 
-        # file_path
-        with open(file_path, 'wb') as f:
-            for i in orig_file.chunks():
-                f.write(i)
+            # file_path
+            with open(file_path, 'wb') as f:
+                for i in orig_file.chunks():
+                    f.write(i)
 
-        ret_url = os.path.join('files', file_name)
+            ret_url = os.path.join('files', file_name)
 
-        ret_path = f'<p><a href="{ret_url}">{orig_file}</a></p>'
+            ret_path = f'<p><a href="{ret_url}">{orig_file}</a></p>'
 
-        data = {"path": ret_path}
+            data = {"path": ret_path}
 
-        return APIResponse(data)
+            return APIResponse(data)
+        except Exception as ex:
+            return APIResponse(ex)

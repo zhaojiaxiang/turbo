@@ -50,7 +50,7 @@ class LiaisonsViewSet(viewsets.APIModelViewSet):
                     return APIResponse('已经存在测试用例，不可删除')
 
             self.perform_destroy(instance)
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return APIResponse()
         except Exception as ex:
             return APIResponse(ex)
 
@@ -180,9 +180,9 @@ class QaProjectDetailView(APIView):
                       """
 
             project_detail = db_connection_execute(sql_str, 'dict')
+            return APIResponse(project_detail)
         except Exception as ex:
             return APIResponse(ex)
-        return APIResponse(project_detail)
 
 
 class LiaisonFileUpload(APIView):
@@ -211,10 +211,9 @@ class LiaisonFileUpload(APIView):
                 liaison = Liaisons.objects.get(pk=liaison_id)
                 liaison.freleaserpt = file_path
                 liaison.save()
+            return APIResponse()
         except Exception as ex:
             return APIResponse(ex)
-
-        return APIResponse()
 
 
 class SyncLiaisonBySirNo(APIView):
@@ -288,8 +287,4 @@ class SyncLiaisonBySirNo(APIView):
                 return APIResponse("无法同步数据，请输入正确的Sir No!")
 
         except Exception as ex:
-            data = {
-                'code': '400',
-                'message': str(ex)
-            }
-            return Response(data=data, status=status.HTTP_200_OK)
+            return APIResponse(ex)

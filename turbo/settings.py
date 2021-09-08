@@ -168,6 +168,8 @@ LANGUAGES = (
 # python manage.py makemessages -l zh_hans --ignore=venv/*
 # django-admin compilemessages
 
+# 前端富文本编辑器展示图片时需要使用sendfile，使用sendfile必须配置SENDFILE_BACKEND
+SENDFILE_BACKEND = "sendfile.backends.development"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

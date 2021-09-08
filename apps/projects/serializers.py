@@ -15,9 +15,9 @@ class ProjectsSerializer(serializers.ModelSerializer):
 
         user = self.context['request'].user
 
-        organization_id = user.ammic_organization.id
-        if not user.ammic_organization.isgroup:
-            organization_id = user.ammic_organization.parent.id
+        organization_id = user.organization.id
+        if not user.organization.isgroup:
+            organization_id = user.organization.parent.id
 
         new_fprojectcd = validated_data['fprojectcd']
 
