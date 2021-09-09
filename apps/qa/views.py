@@ -107,9 +107,9 @@ class BatchNewQaDetail(APIView):
             batch_qa = []
             for qa in batch_data:
                 batch_qa.append(
-                    QaDetail(fclass1=qa['fclass1'], fregression=qa['fregression'], fcontent=qa['fcontent'],
-                             fsortrule=qa['fsortrule'], qahf_id=qa['qahf'], fimpusr=user.name, fentusr=user.name,
-                             fupdteprg='QA Batch New'))
+                    QaDetail(fclass1=qa['fclass1'], fclass2=qa['fclass2'], fregression=qa['fregression'],
+                             fcontent=qa['fcontent'], fsortrule=qa['fsortrule'], qahf_id=qa['qahf'], fimpusr=user.name,
+                             fentusr=user.name, fupdteprg='QA Batch New'))
 
             QaDetail.objects.bulk_create(batch_qa)
             return APIResponse()

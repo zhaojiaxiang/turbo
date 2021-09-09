@@ -32,44 +32,45 @@ class SendEmail(APIView):
     """
 
     def post(self, request):
-        data = request.data
-        user = request.user
-        mail_user = env('MAIL_USER')
-
-        check_list = data['tableData']
-
-        mail_html_start = '''<p>你好</p>
-                             <p>请迁出以下文档：</p>
-                             <table border="1px" cellspacing="0px" style="border-collapse:collapse">
-                                <thead>
-                                    <tr>
-                                        <th>系统</th>
-                                        <th>备注</th>
-                                        <th>联络票号</th>
-                                        <th>文件名称</th>
-                                    </tr>
-                                </thead>
-                             <tbody>'''
-
-        mail_html_end = '''</tbody>
-                           </table>
-                           <p>''' + user.name + ''', 谢谢</p>'''
-
-        '''单邮件发送'''
-        mail_html_mid = ''
-        for row in check_list:
-            mail_html_mid += "<tr>"
-            mail_html_mid += "<td>" + row['fsystem'] + "</td>"
-            mail_html_mid += "<td>" + row['fcomment'] + "</td>"
-            mail_html_mid += "<td>" + row['fslipno'] + "</td>"
-            mail_html_mid += "<td>" + row['fchkoutobj'] + "</td>"
-            mail_html_mid += "</tr>"
-
-        email_title = '[ AMMIC ] 程序迁出-' + user.name
-        email_content = mail_html_start + mail_html_mid + mail_html_end
-        address_list = data['addresslist']
-        receivers = address_list.split(',')
         try:
+            data = request.data
+            user = request.user
+            mail_user = env('MAIL_USER')
+
+            check_list = data['tableData']
+
+            mail_html_start = '''<p>你好</p>
+                                 <p>请迁出以下文档：</p>
+                                 <table border="1px" cellspacing="0px" style="border-collapse:collapse">
+                                    <thead>
+                                        <tr>
+                                            <th>系统</th>
+                                            <th>备注</th>
+                                            <th>联络票号</th>
+                                            <th>文件名称</th>
+                                        </tr>
+                                    </thead>
+                                 <tbody>'''
+
+            mail_html_end = '''</tbody>
+                               </table>
+                               <p>''' + user.name + ''', 谢谢</p>'''
+
+            '''单邮件发送'''
+            mail_html_mid = ''
+            for row in check_list:
+                mail_html_mid += "<tr>"
+                mail_html_mid += "<td>" + row['fsystem'] + "</td>"
+                mail_html_mid += "<td>" + row['fcomment'] + "</td>"
+                mail_html_mid += "<td>" + row['fslipno'] + "</td>"
+                mail_html_mid += "<td>" + row['fchkoutobj'] + "</td>"
+                mail_html_mid += "</tr>"
+
+            email_title = '[ AMMIC ] 程序迁出-' + user.name
+            email_content = mail_html_start + mail_html_mid + mail_html_end
+            address_list = data['addresslist']
+            receivers = address_list.split(',')
+
             num = send_mail(
                 email_title,
                 email_content,
@@ -80,12 +81,7 @@ class SendEmail(APIView):
             )
 
             if num == 0:
-                ret_data = {
-                    'code': '400',
-                    'message': '邮件发送失败'
-                }
-                return Response(ret_data, status=status.HTTP_200_OK)
+                return APIResponse('邮件发送异常！')
+            return APIResponse()
         except Exception as ex:
             return APIResponse(ex)
-
-        return APIResponse()
