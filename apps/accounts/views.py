@@ -547,52 +547,56 @@ class MyConfirm(APIView):
             all_organization_tuple = get_all_organization_belong_me(request)
 
             confirm_sql = f"""
-                           select qahf.id                                   qahf_id,
-                                   qahf.ftesttyp,
-                                   liaisonf.fodrno,
-                                   liaisonf.fslipno,
-                                   (select fnote from qahf where fslipno = liaisonf.fodrno and fslipno2 = 1) fnote,
-                                   qahf.fobjectid,
-                                   qahf.fsystemcd,
-                                   qahf.fprojectcd,
-                                   qahf.fstatus,
-                                   qahf.ftestusr,
-                                   qahf.fobjmodification,
-                                   (select codereview.id
-                                    from codereview
-                                    where codereview.fobjectid = qahf.fobjectid
-                                      and codereview.fslipno = qahf.fslipno) code_id,
-                                   (select codereview.id
-                                    from codereview
-                                    where codereview.fobjectid = 'Design Review'
-                                      and codereview.fslipno = qahf.fslipno) design_id
-                            from liaisonf,
-                                 qahf
-                            where (liaisonf.fslipno = qahf.fslipno or liaisonf.fodrno = qahf.fslipno)
-                              and qahf.fcreateusr in (select name from users where organization_id in {all_organization_tuple})
-                              and qahf.fstatus = '3'
-                              and qahf.ftesttyp = 'MCL'
-                            union all
-                            select distinct qahf.id,
-                                            qahf.ftesttyp,
-                                            qahf.fslipno,
-                                            qahf.fslipno2 fslipno,
-                                            (select fnote from qahf where fslipno = liaisonf.fodrno and fslipno2 = 1) fnote,
-                                            qahf.fobjectid,
-                                            qahf.fsystemcd,
-                                            qahf.fprojectcd,
-                                            qahf.fstatus,
-                                            qahf.ftestusr,
-                                            qahf.fnote,
-                                            ''            code_id,
-                                            ''            design_id
-                            from qahf,
-                                 liaisonf
-                            where qahf.ftesttyp = 'PCL'
-                              and qahf.fstatus = '3'
-                              and liaisonf.fodrno = qahf.fslipno
-                              and (liaisonf.fleader like '%{user.name}%' or liaisonf.fassignedto in
-                                       (select name from users where organization_id in {all_organization_tuple}))
+                            select * from (
+                               select qahf.id                                   qahf_id,
+                                       qahf.ftesttyp,
+                                       liaisonf.fodrno,
+                                       liaisonf.fslipno,
+                                       (select fnote from qahf where fslipno = liaisonf.fodrno and fslipno2 = 1) fnote,
+                                       qahf.fobjectid,
+                                       qahf.fsystemcd,
+                                       qahf.fprojectcd,
+                                       qahf.fstatus,
+                                       qahf.ftestusr,
+                                       qahf.fobjmodification,
+                                       (select codereview.id
+                                        from codereview
+                                        where codereview.fobjectid = qahf.fobjectid
+                                          and codereview.fslipno = qahf.fslipno) code_id,
+                                       (select codereview.id
+                                        from codereview
+                                        where codereview.fobjectid = 'Design Review'
+                                          and codereview.fslipno = qahf.fslipno) design_id
+                                from liaisonf,
+                                     qahf
+                                where (liaisonf.fslipno = qahf.fslipno or liaisonf.fodrno = qahf.fslipno)
+                                  and qahf.fcreateusr in (select name from users where organization_id in {all_organization_tuple})
+                                  and qahf.fstatus in ('3', '4')
+                                  and liaisonf.fstatus <> '4'
+                                  and qahf.ftesttyp = 'MCL'
+                                union all
+                                select distinct qahf.id,
+                                                qahf.ftesttyp,
+                                                qahf.fslipno,
+                                                qahf.fslipno2 fslipno,
+                                                (select fnote from qahf where fslipno = liaisonf.fodrno and fslipno2 = 1) fnote,
+                                                qahf.fobjectid,
+                                                qahf.fsystemcd,
+                                                qahf.fprojectcd,
+                                                qahf.fstatus,
+                                                qahf.ftestusr,
+                                                qahf.fnote,
+                                                ''            code_id,
+                                                ''            design_id
+                                from qahf,
+                                     liaisonf
+                                where qahf.ftesttyp = 'PCL'
+                                  and qahf.fstatus in ('3', '4')
+                                  and liaisonf.fstatus <> '4'
+                                  and liaisonf.fodrno = qahf.fslipno
+                                  and (liaisonf.fleader like '%{user.name}%' or liaisonf.fassignedto in
+                                           (select name from users where organization_id in {all_organization_tuple}))
+                            ) a order by a.fstatus, a.ftesttyp, a.fodrno desc
                           """
 
             confirm_dict = db_connection_execute(confirm_sql, 'dict')

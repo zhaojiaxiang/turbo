@@ -1,6 +1,7 @@
 from rest_framework import views, status
 from rest_framework.response import Response
 
+from bases.response import APIResponse
 from utils.db.handler import db_connection_execute
 from utils.handlers.handler import get_all_organization_group_belong_me
 
@@ -14,7 +15,7 @@ class WorkingOrganization(views.APIView):
 
         working_organization = db_connection_execute(str_sql, 'dict')
 
-        return Response(data=working_organization, status=status.HTTP_200_OK)
+        return APIResponse(data=working_organization)
 
 
 class WorkingProject(views.APIView):
@@ -31,4 +32,4 @@ class WorkingProject(views.APIView):
 
         working_project = db_connection_execute(str_sql, 'dict')
 
-        return Response(data=working_project, status=status.HTTP_200_OK)
+        return APIResponse(data=working_project)

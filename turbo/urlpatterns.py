@@ -115,7 +115,6 @@ qa_urlpatterns = [
     path('', include(qa_router.urls)),
     path('image_upload/', CkEditorImageUpload.as_view()),
     path('file_upload/', CkEditorFileUpload.as_view()),
-    path('liaison_file_upload/', LiaisonFileUpload.as_view()),
     path('pcl_commit_judgment/', PCLCommitJudgment.as_view()),
     path('files/<str:filename>', RecoverFile.as_view()),
     path('default_ok/', TestResultDefaultOK.as_view()),
