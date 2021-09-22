@@ -13,6 +13,7 @@ from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 
+from dashboard.views import DevelopDetail
 from utils.token.handler import APITokenObtainPairView, APITokenRefreshView
 from accounts.views import UserListViewSet, MyGroupUserViewSet, UserDevelopmentDetail, MyTaskBar, MyMcl, MyPcl, \
     MyApproval, MyConfirm, MyRelease, UpdatePassword, UpdateEmailDays, UpdateAvatar
@@ -147,6 +148,10 @@ master_urlpatterns = [
     path('', include(master_router.urls))
 ]
 
+dashboard_urlpatterns = [
+    path('liaisons/', DevelopDetail.as_view())
+]
+
 api_urlpatterns = [
     path('', include(common_urlpatterns)),
     path('', include(conf_urlpatterns)),
@@ -157,5 +162,6 @@ api_urlpatterns = [
     path('master/', include(master_urlpatterns)),
     path('report/', include(report_urlpatterns)),
     path('rbac/', include(rbac_urlpatterns)),
-    path('checkout/', include(checkout_urlpatterns))
+    path('checkout/', include(checkout_urlpatterns)),
+    path('dashboard/', include(dashboard_urlpatterns))
 ]

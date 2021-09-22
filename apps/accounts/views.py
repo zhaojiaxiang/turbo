@@ -446,7 +446,8 @@ class MyPcl(APIView):
                             qahf.fstatus,
                             (select ifnull(fimpusr, fentusr) from qadf where qahf_id = qahf.id limit 1) ftestusr,
                             ''                                                                          design_id,
-                            ''                                                                          code_id
+                            ''                                                                          code_id,
+                            (select count(*) from qadf where qahf_id = qahf.id) qa_count
                         from liaisonf,
                              qahf
                         where liaisonf.fodrno = qahf.fslipno

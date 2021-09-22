@@ -48,6 +48,9 @@ class QaHeadSerializer(serializers.ModelSerializer):
             if is_exist.count() > 0:
                 raise serializers.ValidationError("该测试对象已经在该联络下存在")
         else:
+            is_order_exist = Liaisons.objects.filter(fodrno__exact=validated_data['fslipno'])
+            if is_order_exist.count() == 0:
+                raise serializers.ValidationError("该订单在系统中不存在")
             max_slipno2 = QaHead.objects.filter(fslipno__exact=validated_data['fslipno']).aggregate(Max('fslipno2'))
             if max_slipno2['fslipno2__max']:
                 slip_no2 = max_slipno2['fslipno2__max'] + 1
