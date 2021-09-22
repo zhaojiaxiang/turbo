@@ -1,9 +1,12 @@
-from rest_framework import views, status
-from rest_framework.response import Response
+from rest_framework import views
+from rest_framework.viewsets import GenericViewSet
 
+from bases import mixins
 from bases.response import APIResponse
+from rbac.models import Organizations
+from rbac.serializers import OrganizationsSerializer
 from utils.db.handler import db_connection_execute
-from utils.handlers.handler import get_all_organization_group_belong_me
+from utils.handlers.handler import get_all_organization_group_belong_me, get_all_organizations
 
 
 class WorkingOrganization(views.APIView):
@@ -16,6 +19,18 @@ class WorkingOrganization(views.APIView):
         working_organization = db_connection_execute(str_sql, 'dict')
 
         return APIResponse(data=working_organization)
+
+
+class PersonInOrganization(views.APIView):
+
+    def get(self, request):
+        organization = request.GET.get('organization')
+        all_organizations = get_all_organizations(organization)
+        str_sql = f"select name from users where users.organization_id in {all_organizations} and is_active='1' "
+
+        persons = db_connection_execute(str_sql, 'dict')
+
+        return APIResponse(data=persons)
 
 
 class WorkingProject(views.APIView):
@@ -33,3 +48,9 @@ class WorkingProject(views.APIView):
         working_project = db_connection_execute(str_sql, 'dict')
 
         return APIResponse(data=working_project)
+
+
+class OrganizationsViewSet(mixins.APIRetrieveModelMixin, mixins.APIListModelMixin, GenericViewSet):
+
+    serializer_class = OrganizationsSerializer
+    queryset = Organizations.objects.all()

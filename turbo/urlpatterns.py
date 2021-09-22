@@ -13,7 +13,7 @@ from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 
-from dashboard.views import DevelopDetail
+from dashboard.views import PersonDevelopDetail, OrganizationDevelopDetail, ProjectTestDetailChart
 from utils.token.handler import APITokenObtainPairView, APITokenRefreshView
 from accounts.views import UserListViewSet, MyGroupUserViewSet, UserDevelopmentDetail, MyTaskBar, MyMcl, MyPcl, \
     MyApproval, MyConfirm, MyRelease, UpdatePassword, UpdateEmailDays, UpdateAvatar
@@ -30,7 +30,7 @@ from systems.views import SystemsViewSet
 from projects.views import ProjectsViewSet
 from reports.views import ReportListViewSet, ReportLiaisonListViewSet, ReportLiaisonInfo, ReportQaInfo, ReportOrderInfo, \
     ReportLiaisonPCLViewSet
-from rbac.views import WorkingOrganization, WorkingProject
+from rbac.views import WorkingOrganization, WorkingProject, PersonInOrganization, OrganizationsViewSet
 from checkouts.views import CheckOutFilesViewSet, SendEmail
 
 account_router = DefaultRouter()
@@ -79,6 +79,9 @@ report_router = DefaultRouter()
 report_router.register('reports', ReportListViewSet, basename='reports')
 report_router.register('list', ReportLiaisonListViewSet, basename='report_list')
 report_router.register('list_pcl', ReportLiaisonPCLViewSet, basename='report_list_pcl')
+
+rbac_router = DefaultRouter()
+rbac_router.register('organization', OrganizationsViewSet, basename='organization')
 
 conf_urlpatterns = [
     path('admin/', admin.site.urls),
@@ -129,7 +132,9 @@ checkout_urlpatterns = [
 ]
 
 rbac_urlpatterns = [
+    path('', include(rbac_router.urls)),
     path('working_organization/', WorkingOrganization.as_view()),
+    path('persons_in_organization/', PersonInOrganization.as_view()),
     path('working_project/', WorkingProject.as_view())
 ]
 
@@ -149,7 +154,9 @@ master_urlpatterns = [
 ]
 
 dashboard_urlpatterns = [
-    path('liaisons/', DevelopDetail.as_view())
+    path('liaisons/', PersonDevelopDetail.as_view()),
+    path('group_liaisons/', OrganizationDevelopDetail.as_view()),
+    path('project_test_detail/', ProjectTestDetailChart.as_view())
 ]
 
 api_urlpatterns = [
