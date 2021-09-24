@@ -13,6 +13,7 @@ class Liaisons(models.Model):
     fassignedto = models.CharField(db_index=True, verbose_name='对应者', max_length=60)
     fhelper = models.CharField(db_index=True, verbose_name='协助者', max_length=60, null=True, blank=True)
     fleader = models.CharField(db_index=True, verbose_name='负责人', max_length=60, null=True, blank=True)
+    fhelptester = models.CharField(db_index=True, verbose_name='测试协助者', max_length=60, null=True, blank=True)
     fbrief = models.TextField(verbose_name='开发描述')
     fcontent = models.TextField(verbose_name='问题描述', null=True, blank=True)
     fanalyse = models.TextField(verbose_name='问题分析', null=True, blank=True)

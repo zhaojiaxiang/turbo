@@ -13,7 +13,9 @@ from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 
-from dashboard.views import PersonDevelopDetail, OrganizationDevelopDetail, ProjectTestDetailChart
+from dashboard.views import PersonDevelopDetail, OrganizationDevelopDetail, ProjectTestDetailChart, \
+    LiaisonTypeScaleChart, LiaisonPlanActualManPowerChart, LiaisonTypeManPowerScaleChart, DashBoardPanelGroup, \
+    ProjectBugRateChart
 from utils.token.handler import APITokenObtainPairView, APITokenRefreshView
 from accounts.views import UserListViewSet, MyGroupUserViewSet, UserDevelopmentDetail, MyTaskBar, MyMcl, MyPcl, \
     MyApproval, MyConfirm, MyRelease, UpdatePassword, UpdateEmailDays, UpdateAvatar
@@ -156,7 +158,12 @@ master_urlpatterns = [
 dashboard_urlpatterns = [
     path('liaisons/', PersonDevelopDetail.as_view()),
     path('group_liaisons/', OrganizationDevelopDetail.as_view()),
-    path('project_test_detail/', ProjectTestDetailChart.as_view())
+    path('project_test_detail/', ProjectTestDetailChart.as_view()),
+    path('liaison_type_scale/', LiaisonTypeScaleChart.as_view()),
+    path('liaison_plan_actual/', LiaisonPlanActualManPowerChart.as_view()),
+    path('liaison_type_power_scale/', LiaisonTypeManPowerScaleChart.as_view()),
+    path('dashboard_panel_group/', DashBoardPanelGroup.as_view()),
+    path('project_bug_rate/', ProjectBugRateChart.as_view()),
 ]
 
 api_urlpatterns = [

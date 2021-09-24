@@ -80,6 +80,7 @@ class LiaisonsSerializer(serializers.ModelSerializer):
                 liaison.fcreateusr = user.name
             liaison.forganization = organization_id
             liaison.fentusr = user.name
+            liaison.fhelptester = user.name
             liaison.fupdteprg = "Liaison No New"
             liaison.save()
 

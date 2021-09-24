@@ -34,7 +34,9 @@ class LiaisonsViewSet(viewsets.APIModelViewSet):
     ordering_fields = ['fstatus', 'fcreatedte']
 
     def get_queryset(self):
-        return Liaisons.objects.filter(fassignedto=self.request.user.name).order_by('fstatus', '-fcreatedte')
+        return Liaisons.objects.filter(
+            Q(fassignedto=self.request.user.name) | Q(fhelptester=self.request.user.name)).order_by('fstatus',
+                                                                                                    '-fcreatedte')
 
     def destroy(self, request, *args, **kwargs):
         try:
