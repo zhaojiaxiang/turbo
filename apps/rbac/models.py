@@ -5,8 +5,9 @@ class Permission(models.Model):
     """
     权限控制主表
     """
+    permission_type = [('MENU', '前端菜单'), ('URL', '请求路径')]
     parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.DO_NOTHING)
-    type = models.CharField(max_length=20, verbose_name="类型")
+    type = models.CharField(max_length=20, verbose_name="类型", choices=permission_type)
     code = models.CharField(max_length=20, verbose_name="权限代码")
     content = models.CharField(max_length=200, verbose_name="权限内容", unique=True)
     comment = models.CharField(max_length=200, verbose_name="权限内容说明")
@@ -26,7 +27,7 @@ class Role(models.Model):
     角色
     """
     name = models.CharField(verbose_name='角色名称', max_length=32)
-    permission = models.ManyToManyField(verbose_name='拥有的所有权限', to='Permission', blank=True)
+    permission = models.ManyToManyField(Permission, verbose_name='拥有的所有权限', blank=True, related_name='permissions')
 
     def __str__(self):
         return self.name

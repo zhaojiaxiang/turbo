@@ -1,12 +1,18 @@
-from rest_framework import views
+from rest_framework import views, viewsets
 from rest_framework.viewsets import GenericViewSet
 
 from bases import mixins
 from bases.response import APIResponse
-from rbac.models import Organizations
-from rbac.serializers import OrganizationsSerializer
+from rbac.models import Organizations, Role
+from rbac.serializers import OrganizationsSerializer, RoleSerializer
 from utils.db.handler import db_connection_execute
 from utils.handlers.handler import get_all_organization_group_belong_me, get_all_organizations
+
+
+class RoleViewSet(mixins.APIListModelMixin, mixins.APIRetrieveModelMixin, viewsets.GenericViewSet):
+
+    serializer_class = RoleSerializer
+    queryset = Role.objects.all()
 
 
 class WorkingOrganization(views.APIView):

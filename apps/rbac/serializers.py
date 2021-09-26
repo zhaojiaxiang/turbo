@@ -9,14 +9,14 @@
 """
 from rest_framework import serializers
 
-from rbac.models import Role, Group, Organizations
+from rbac.models import Role, Group, Organizations, Permission
 
 
 class RoleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Role
-        fields = ("name", )
+        fields = ("name", "permission")
 
 
 class GroupSerializer(serializers.ModelSerializer):

@@ -32,7 +32,7 @@ from systems.views import SystemsViewSet
 from projects.views import ProjectsViewSet
 from reports.views import ReportListViewSet, ReportLiaisonListViewSet, ReportLiaisonInfo, ReportQaInfo, ReportOrderInfo, \
     ReportLiaisonPCLViewSet
-from rbac.views import WorkingOrganization, WorkingProject, PersonInOrganization, OrganizationsViewSet
+from rbac.views import WorkingOrganization, WorkingProject, PersonInOrganization, OrganizationsViewSet, RoleViewSet
 from checkouts.views import CheckOutFilesViewSet, SendEmail
 
 account_router = DefaultRouter()
@@ -84,6 +84,7 @@ report_router.register('list_pcl', ReportLiaisonPCLViewSet, basename='report_lis
 
 rbac_router = DefaultRouter()
 rbac_router.register('organization', OrganizationsViewSet, basename='organization')
+rbac_router.register('role', RoleViewSet, basename='role')
 
 conf_urlpatterns = [
     path('admin/', admin.site.urls),

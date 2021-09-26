@@ -389,11 +389,11 @@ class DashBoardPanelGroup(APIView):
                     from (
                              select count(*) count
                              from qadf
-                             where qahf_id in (select id from qahf where ftestusr = '{user.name}')
+                             where  ftestusr = '{user.name}'
                                and fresult in ('NGOK', 'NG')) a,
                          (select count(*) count
                           from qadf
-                          where qahf_id in (select id from qahf where ftestusr = '{user.name}')
+                          where  ftestusr = '{user.name}'
                             and fresult in ('OK', 'NGOK', 'NG')) b
                  """
 
