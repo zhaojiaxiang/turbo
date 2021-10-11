@@ -245,7 +245,8 @@ class QaHeadModifyDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QaHead
-        fields = ('id', 'fttlcodelines', 'fmodifiedlines', 'fcomplexity', 'fselflevel', 'fstatus')
+        fields = ('id', 'fttlcodelines', 'fmodifiedlines', 'fcomplexity', 'fselflevel', 'fstatus', 'ftargettest',
+                  'ftargetregtest', 'ftargetng')
 
 
 class QaSlipNoCheckOutObjectSerializer(serializers.ModelSerializer):
@@ -354,21 +355,29 @@ class QaHeadTargetAndActualSerializer(serializers.ModelSerializer):
             'actual_ngok', 'actual_ng_rate')
 
     def get_target_tests(self, obj):
+        if obj.ftargettest:
+            return obj.ftargettest
         if obj.fmodifiedlines:
             return ceil(obj.fmodifiedlines * obj.fcomplexity / 11)
         return 0
 
     def get_target_regressions(self, obj):
+        if obj.ftargetregtest:
+            return obj.ftargetregtest
         if obj.fttlcodelines:
             return ceil(obj.fttlcodelines / 50)
         return 0
 
     def get_target_total(self, obj):
+        if obj.ftargettest:
+            return self.get_target_regressions(obj) + self.get_target_tests(obj)
         if obj.fttlcodelines:
             return self.get_target_regressions(obj) + self.get_target_tests(obj)
         return 0
 
     def get_target_ng(self, obj):
+        if obj.ftargetng:
+            return obj.ftargetng
         if obj.fmodifiedlines:
             return ceil(self.get_target_tests(obj) / 11)
         return 0

@@ -22,6 +22,11 @@ class QaHead(models.Model):
     fttlcodelines = models.IntegerField(verbose_name='影响总行数', default=0)
     fmodifiedlines = models.SmallIntegerField(verbose_name='修改行数', default=0)
     fcomplexity = models.DecimalField(verbose_name='复杂度', max_digits=2, decimal_places=1, null=True, blank=True)
+    # 2021-10-11 赵加响 原始目标测试数量计算方式只针对PB开发，现在允许手动输入目标测试数以及目标NG数
+    ftargettest = models.IntegerField(verbose_name='目标测试数(不包含回归)', default=0)
+    ftargetregtest = models.IntegerField(verbose_name='目标回归测试数', default=0)
+    ftargetng = models.IntegerField(verbose_name='目标回归NG数', default=0)
+    # 2021-10-11 赵加响
     fnote = models.TextField(verbose_name='备注', null=True, blank=True)
     fobjmodification = models.TextField(verbose_name='程序修改概要', null=True, blank=True)
     freviewcode = models.TextField(verbose_name='程序确认结果', null=True, blank=True)

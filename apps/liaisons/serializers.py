@@ -416,7 +416,9 @@ class QaProjectDataStatisticsSerializer(serializers.ModelSerializer):
         qa_heads = QaHead.objects.filter(fslipno__exact=obj['fslipno'])
         target_tests = 0
         for qa_head in qa_heads:
-            if qa_head.fmodifiedlines:
+            if qa_head.ftargettest:
+                target_tests = qa_head.ftargettest
+            elif qa_head.fmodifiedlines:
                 target_tests = target_tests + ceil(qa_head.fmodifiedlines * qa_head.fcomplexity / 11)
 
         return target_tests
@@ -425,7 +427,9 @@ class QaProjectDataStatisticsSerializer(serializers.ModelSerializer):
         qa_heads = QaHead.objects.filter(fslipno__exact=obj['fslipno'])
         target_regressions = 0
         for qa_head in qa_heads:
-            if qa_head.fttlcodelines:
+            if qa_head.ftargetregtest:
+                target_regressions = qa_head.ftargetregtest
+            elif qa_head.fttlcodelines:
                 target_regressions = target_regressions + ceil(qa_head.fttlcodelines / 50)
 
         return target_regressions
@@ -438,7 +442,9 @@ class QaProjectDataStatisticsSerializer(serializers.ModelSerializer):
         target_ng = 0
 
         for qa_head in qa_heads:
-            if qa_head.fmodifiedlines:
+            if qa_head.ftargetng:
+                target_ng = qa_head.ftargetng
+            elif qa_head.fmodifiedlines:
                 target_ng = target_ng + ceil(self.get_target_tests(obj) / 11)
 
         return target_ng
