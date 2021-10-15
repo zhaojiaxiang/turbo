@@ -11,6 +11,7 @@ from qa.models import QaHead, QaDetail
 from rbac.models import Organizations
 from turbo.settings import SLIMS_STATUS
 from utils.db.handler import man_power_connection_execute, db_connection_execute, query_single_with_no_parameter
+from utils.middleware.logger.handler import write_log
 from utils.slims.slims import SLIMSExchange
 
 
@@ -296,6 +297,7 @@ class QaProjectSerializer(serializers.ModelSerializer):
     def get_note(self, obj):
         sql_str = f"select fnote from odrrlsf where fodrno = '{obj['fodrno']}' "
         note_list = man_power_connection_execute(sql_str)
+        write_log(note_list[0][0])
         return note_list[0][0] if note_list else "******"
 
     def get_project(self, obj):

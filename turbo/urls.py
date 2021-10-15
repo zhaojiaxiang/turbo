@@ -15,13 +15,21 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
 
 from turbo import settings
-from turbo.urlpatterns import api_urlpatterns
+from turbo.urlpatterns import api_urlpatterns, conf_urlpatterns
 
-urlpatterns = [
+# URL前缀：http://127.0.0.1:8000/zh-hans/
+urlpatterns = i18n_patterns(
     path('api/', include(api_urlpatterns)),
+)
+
+# URL前缀：http://127.0.0.1:8000/
+urlpatterns += [
+    path('conf/', include(conf_urlpatterns)),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
                + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

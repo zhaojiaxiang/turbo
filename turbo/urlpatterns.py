@@ -169,7 +169,6 @@ dashboard_urlpatterns = [
 
 api_urlpatterns = [
     path('', include(common_urlpatterns)),
-    path('', include(conf_urlpatterns)),
     path('account/', include(account_urlpatterns)),
     path('liaison/', include(liaison_urlpatterns)),
     path('qa/', include(qa_urlpatterns)),

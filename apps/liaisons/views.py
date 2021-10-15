@@ -21,7 +21,7 @@ from qa.models import QaHead, QaDetail
 from turbo.settings import SLIMS_STATUS
 from utils.db.handler import db_connection_execute
 from utils.handlers.handler import get_all_organization_group_belong_me
-from utils.middleware.logger.handler import create_folder
+from utils.middleware.logger.handler import create_folder, write_log
 from utils.slims.slims import SLIMSExchange
 
 
@@ -93,6 +93,7 @@ class QaProjectForGroupViewSet(mixins.APIRetrieveModelMixin, mixins.APIListModel
     def get_queryset(self):
         all_group_tuple = get_all_organization_group_belong_me(self.request)
         # 此处没有对数据进行排序，因为不好排，前端获取到该数据后会进行排序
+        write_log(all_group_tuple)
         return Liaisons.objects.values("fodrno", "forganization").filter(
             forganization__in=all_group_tuple).distinct().order_by('-fodrno')
 

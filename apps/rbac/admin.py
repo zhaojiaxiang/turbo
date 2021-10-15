@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from rbac.models import Permission, Role
+from rbac.models import Permission, Role, Group, Organizations
 
 
 @admin.register(Permission)
@@ -11,3 +11,13 @@ class PermissionAdmin(admin.ModelAdmin):
 @admin.register(Role)
 class RoleAdmin(admin.ModelAdmin):
     list_display = ('name',)
+
+
+@admin.register(Group)
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+
+
+@admin.register(Organizations)
+class OrganizationsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'isgroup')
