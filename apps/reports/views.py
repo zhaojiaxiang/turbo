@@ -63,7 +63,7 @@ class ReportOrderInfo(APIView):
             if multiple_slip:
                 slip_list = multiple_slip.split(",")
             image = request.GET.get('image')
-            liaisons = Liaisons.objects.filter(fodrno__exact=order_no, fstatus__in=('3', '4')).order_by('fslipno')
+            liaisons = Liaisons.objects.filter(fodrno__contains=order_no, fstatus__in=('3', '4')).order_by('fslipno')
             for liaison in liaisons:
                 liaison_dict = {}
                 if multiple_slip:
