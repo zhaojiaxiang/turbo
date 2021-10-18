@@ -294,10 +294,9 @@ class QaProjectSerializer(serializers.ModelSerializer):
         return obj['fodrno']
 
     def get_note(self, obj):
-        # sql_str = f"select fnote from odrrlsf where fodrno = '{obj['fodrno']}' "
-        # note_list = man_power_connection_execute(sql_str)
-        # return note_list[0][0] if note_list else "******"
-        return "*******"
+        sql_str = f"select fnote from odrrlsf where fodrno = '{obj['fodrno']}' "
+        note_list = man_power_connection_execute(sql_str)
+        return note_list[0][0] if note_list else "******"
 
     def get_project(self, obj):
         project = Liaisons.objects.filter(fodrno__exact=obj['fodrno']).values('fprojectcd').distinct()
