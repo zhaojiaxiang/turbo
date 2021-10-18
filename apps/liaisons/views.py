@@ -93,7 +93,7 @@ class QaProjectForGroupViewSet(mixins.APIRetrieveModelMixin, mixins.APIListModel
     def get_queryset(self):
         all_group_tuple = get_all_organization_group_belong_me(self.request)
         # 此处没有对数据进行排序，因为不好排，前端获取到该数据后会进行排序
-        write_log(all_group_tuple)
+        write_log(str(all_group_tuple[0]))
         return Liaisons.objects.values("fodrno", "forganization").filter(
             forganization__in=all_group_tuple).distinct().order_by('-fodrno')
 
