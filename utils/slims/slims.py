@@ -107,9 +107,10 @@ class SLIMSExchange:
 
         return ret
 
-    def update_slims(self, sir_no, system_code, project_code, slip_no, slip_type, order_no, brief, content, solution):
+    def update_slims(self, sir_no, system_code, project_code, slip_no, slip_type, order_no, brief, content, analyse,
+                     solution):
         ret = self.client.service.UpdateSIRF(sir_no, system_code, project_code, slip_no, slip_type, order_no, brief,
-                                             content, solution, self.user.slmsname, datetime.utcnow())
+                                             content, analyse, solution, self.user.slmsname, datetime.utcnow())
         return ret
 
     def update_slims_overload(self, validated_data):
@@ -121,6 +122,7 @@ class SLIMSExchange:
         order_no = validated_data['fodrno']
         brief = validated_data['fbrief']
         content = validated_data['fcontent']
+        analyse = validated_data['fanalyse']
         solution = validated_data['fsolution']
 
         if slip_type.strip() == "追加开发":
@@ -134,7 +136,7 @@ class SLIMSExchange:
             system_code = "CMP"
 
         ret = self.update_slims(sir_no, system_code, project_code, slip_no, slip_type, order_no, brief,
-                                content, solution)
+                                content, analyse, solution)
         return ret
 
     def delete_slims(self, sir_no):
