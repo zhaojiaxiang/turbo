@@ -245,12 +245,15 @@ class SyncLiaisonBySirNo(APIView):
                 sir_category = sir_no_list[12]
                 sir_productid = sir_no_list[13]
                 sir_jpmodules = sir_no_list[14]
-                sir_jpdescription = sir_no_list[15]
+                sir_jpsummary = sir_no_list[15]
+                sir_jpdescription = sir_no_list[16]
 
                 if sir_jpdescription:
                     sir_jpdescription = sir_jpdescription.strip()
                 if sir_jpmodules:
                     sir_jpmodules = sir_jpmodules.strip()
+                if sir_jpsummary:
+                    sir_jpsummary = sir_jpsummary.strip()
 
                 sir_status = sir_status.strip()
                 sir_category = sir_category.strip()
@@ -281,7 +284,7 @@ class SyncLiaisonBySirNo(APIView):
                 data = {'ftype': ftype, 'fcreateusr': fcreateusr, 'fcreatedte': sir_dateopened,
                         "fplnstart": sir_dateopened, 'fassignedto': fassignedto, 'fsystemcd': sir_productid.strip(),
                         'fprojectcd': sir_prjno.strip(), 'fodrno': sir_odrno.strip(), 'fbrief': sir_jpmodules,
-                        'fcontent': sir_jpdescription, 'fsirno': sir_no}
+                        'fcontent': sir_jpsummary, 'fanalyse': sir_jpdescription, 'fsirno': sir_no}
 
                 return APIResponse(data)
             else:
