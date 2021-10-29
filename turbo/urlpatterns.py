@@ -26,7 +26,7 @@ from qa.views import MCLQaHeadViewSet, QaDetailViewSet, QaDetailUpdateResultView
     QaDetailUpdateContentTextViewSet, QaHeadUpdateObjectSummaryViewSet, QaHeadModifyDetailViewSet, \
     QaHeadTargetAndActualViewSet, CkEditorImageUpload, CkEditorFileUpload, RecoverFile, PCLQaClass1ViewSet, \
     PCLQaClass2ViewSet, PCLCommitJudgment, TestResultDefaultOK, QaDetailApprovalContentTextViewSet, \
-    QadfProofContentTextViewSet, CodeReviewInspection, QaSlipNoCheckOutObject, BatchNewQaDetail
+    QadfProofContentTextViewSet, CodeReviewInspection, QaSlipNoCheckOutObject, BatchNewQaDetail, JudgeTestTypeByQaDetail
 from reviews.views import DesignReviewViewSet, CodeReviewViewSet
 from systems.views import SystemsViewSet
 from projects.views import ProjectsViewSet
@@ -127,6 +127,7 @@ qa_urlpatterns = [
     path('default_ok/', TestResultDefaultOK.as_view()),
     path('codereview_inspection/', CodeReviewInspection.as_view()),
     path('batch_new_qa_detail/', BatchNewQaDetail.as_view()),
+    path('judge_test_type/', JudgeTestTypeByQaDetail.as_view()),
 ]
 
 checkout_urlpatterns = [

@@ -288,6 +288,7 @@ class CkEditorImageUpload(APIView):
             return APIResponse(ex)
 
 
+@permission_classes((AllowAny,))
 class CkEditorFileUpload(APIView):
     """
     富文本编辑器文件上传API
@@ -321,3 +322,15 @@ class CkEditorFileUpload(APIView):
             return APIResponse(data)
         except Exception as ex:
             return APIResponse(ex)
+
+
+class JudgeTestTypeByQaDetail(APIView):
+
+    def get(self, request):
+
+        qadf = request.GET.get('qadf')
+
+        qadf = QaDetail.objects.get(id=qadf)
+
+        data = {'id': qadf.qahf.id, 'type': qadf.qahf.ftesttyp, 'class1': qadf.fclass1, 'class2': qadf.fclass2}
+        return APIResponse(data)

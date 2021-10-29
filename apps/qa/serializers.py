@@ -523,11 +523,12 @@ class QaDetailUpdateResultSerializer(serializers.ModelSerializer):
 
 class QaDetailUpdateContentTextSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    fsortrule = serializers.CharField(read_only=True)
     status = serializers.SerializerMethodField()
 
     class Meta:
         model = QaDetail
-        fields = ('id', 'status', 'fcontent', 'fcontent_text')
+        fields = ('id', 'status', 'fcontent', 'fcontent_text', 'fsortrule')
 
     def get_status(self, obj):
         return obj.qahf.fstatus
