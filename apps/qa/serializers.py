@@ -362,7 +362,7 @@ class QaHeadTargetAndActualSerializer(serializers.ModelSerializer):
         return 0
 
     def get_target_regressions(self, obj):
-        if obj.ftargetregtest:
+        if obj.ftargetregtest or obj.ftargettest:
             return obj.ftargetregtest
         if obj.fttlcodelines:
             return ceil(obj.fttlcodelines / 50)
