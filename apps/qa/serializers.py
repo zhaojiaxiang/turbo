@@ -607,6 +607,8 @@ class QaDetailApprovalContentTextSerializer(serializers.ModelSerializer):
             ng_count = ng_count + 1
             result = "NG"
         else:
+            if instance.flastsubmitid is None:
+                instance.flastsubmitid = 0
             if instance.flastsubmitid > instance.flastapproveid:
                 proof = Qadfproof.objects.create(**proof_data)
                 proof_id = proof.id
