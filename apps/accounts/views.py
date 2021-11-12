@@ -242,8 +242,9 @@ class MyTaskBar(APIView):
                                           qadf
                                      where qadf.qahf_id = qahf.id
                                        and (liaisonf.fslipno = qahf.fslipno or liaisonf.fodrno = qahf.fslipno)
-                                       and qahf.fcreateusr in (select name from users where organization_id
-                                       in {all_organization_tuple})
+                                       and (qahf.fcreateusr in (select name from users where organization_id
+                                           in {all_organization_tuple}) or liaisonf.fleader like '%{user.name}%' 
+                                           or liaisonf.fhelper like '%{user.name}%')
                                        and qadf.fapproval = 'N'
                                        and qahf.ftesttyp = 'MCL'
                                        and qahf.fstatus in ('1', '2')
@@ -265,7 +266,7 @@ class MyTaskBar(APIView):
                                        and qadf.fapproval = 'N'
                                        and qahf.fstatus in ('1', '2')
                                        and liaisonf.fodrno = qahf.fslipno
-                                       and (liaisonf.fleader like '%{user.name}%' or liaisonf.fassignedto in
+                                       and (liaisonf.fleader like '%{user.name}%'  or liaisonf.fhelper like '%{user.name}%' or liaisonf.fassignedto in
                                        (select name from users where organization_id in {all_organization_tuple}))) a
                                 order by ftesttyp, fodrno, fslipno
                           """
@@ -295,7 +296,9 @@ class MyTaskBar(APIView):
                              from liaisonf,
                                   qahf
                              where (liaisonf.fslipno = qahf.fslipno or liaisonf.fodrno = qahf.fslipno)
-                               and qahf.fcreateusr in (select name from users where organization_id in {all_organization_tuple})
+                               and (qahf.fcreateusr in (select name from users where organization_id 
+                                    in {all_organization_tuple}) or liaisonf.fleader like '%{user.name}%' 
+                                    or liaisonf.fhelper like '%{user.name}%')
                                and qahf.fstatus = '3'
                                and qahf.ftesttyp = 'MCL'
                              union all
@@ -313,7 +316,7 @@ class MyTaskBar(APIView):
                              where qahf.ftesttyp = 'PCL'
                                and qahf.fstatus = '3'
                                and liaisonf.fodrno = qahf.fslipno
-                               and (liaisonf.fleader like '%{user.name}%' or liaisonf.fassignedto in
+                               and (liaisonf.fleader like '%{user.name}%' or liaisonf.fhelper like '%{user.name}%' or liaisonf.fassignedto in
                                 (select name from users where organization_id in {all_organization_tuple}))) a1
                           """
             confirm_list = query_single_with_no_parameter(confirm_sql, 'list')
@@ -500,8 +503,9 @@ class MyApproval(APIView):
                                           qadf
                                      where qadf.qahf_id = qahf.id
                                        and (liaisonf.fslipno = qahf.fslipno or liaisonf.fodrno = qahf.fslipno)
-                                       and qahf.fcreateusr in (select name from users where organization_id
-                                       in {all_organization_tuple})
+                                       and (qahf.fcreateusr in (select name from users where organization_id
+                                           in {all_organization_tuple}) or liaisonf.fleader like '%{user.name}%' 
+                                           or liaisonf.fhelper like '%{user.name}%')
                                        and qadf.fapproval = 'N'
                                        and qahf.ftesttyp = 'MCL'
                                        and qahf.fstatus in ('1', '2')
@@ -527,7 +531,7 @@ class MyApproval(APIView):
                                        and qadf.fapproval = 'N'
                                        and qahf.fstatus in ('1', '2')
                                        and liaisonf.fodrno = qahf.fslipno
-                                       and (liaisonf.fleader like '%{user.name}%' or liaisonf.fassignedto in
+                                       and (liaisonf.fleader like '%{user.name}%' or liaisonf.fhelper like '%{user.name}%' or liaisonf.fassignedto in
                                        (select name from users where organization_id in {all_organization_tuple}))) a
                                 order by ftesttyp, fodrno, fslipno
                           """
@@ -571,7 +575,9 @@ class MyConfirm(APIView):
                                 from liaisonf,
                                      qahf
                                 where (liaisonf.fslipno = qahf.fslipno or liaisonf.fodrno = qahf.fslipno)
-                                  and qahf.fcreateusr in (select name from users where organization_id in {all_organization_tuple})
+                                  and (qahf.fcreateusr in (select name from users where organization_id 
+                                      in {all_organization_tuple}) or liaisonf.fleader like '%{user.name}%' 
+                                      or liaisonf.fhelper like '%{user.name}%')
                                   and qahf.fstatus in ('3', '4')
                                   and liaisonf.fstatus <> '4'
                                   and qahf.ftesttyp = 'MCL'
@@ -595,7 +601,7 @@ class MyConfirm(APIView):
                                   and qahf.fstatus in ('3', '4')
                                   and liaisonf.fstatus <> '4'
                                   and liaisonf.fodrno = qahf.fslipno
-                                  and (liaisonf.fleader like '%{user.name}%' or liaisonf.fassignedto in
+                                  and (liaisonf.fleader like '%{user.name}%' or liaisonf.fhelper like '%{user.name}%' or liaisonf.fassignedto in
                                            (select name from users where organization_id in {all_organization_tuple}))
                             ) a order by a.fstatus, a.ftesttyp, a.fodrno desc
                           """
