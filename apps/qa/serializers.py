@@ -601,24 +601,32 @@ class QaDetailApprovalContentTextSerializer(serializers.ModelSerializer):
         ng_count = instance.fngcnt
         result = instance.fresult
         if instance.flastapproveid is None:
-            proof = Qadfproof.objects.create(**proof_data)
-            proof_id = proof.id
-            proof.save()
-            ng_count = ng_count + 1
-            result = "NG"
-        else:
-            if instance.flastsubmitid is None:
-                instance.flastsubmitid = 0
-            if instance.flastsubmitid > instance.flastapproveid:
+            if len(fcontent_text) > 0:
                 proof = Qadfproof.objects.create(**proof_data)
                 proof_id = proof.id
                 proof.save()
                 ng_count = ng_count + 1
                 result = "NG"
+        else:
+            if instance.flastsubmitid is None:
+                instance.flastsubmitid = 0
+            if instance.flastsubmitid > instance.flastapproveid:
+                if len(fcontent_text) > 0:
+                    proof = Qadfproof.objects.create(**proof_data)
+                    proof_id = proof.id
+                    proof.save()
+                    ng_count = ng_count + 1
+                    result = "NG"
             else:
                 proof_id = instance.flastapproveid
                 proof = Qadfproof.objects.get(pk=proof_id)
                 proof.fcontent_text = fcontent_text
+                if len(fcontent_text) == 0:
+                    ng_count = instance.fngcnt - 1
+                    result = "OK"
+                else:
+                    ng_count = 1
+                    result = "NG"
                 proof.save()
 
         instance.flastapproveid = proof_id
