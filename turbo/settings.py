@@ -14,6 +14,8 @@ import os
 import sys
 
 from django.utils.translation import ugettext_lazy as _
+# import sentry_sdk
+# from sentry_sdk.integrations.django import DjangoIntegration
 
 import environ
 
@@ -77,6 +79,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -196,7 +199,7 @@ REST_FRAMEWORK = {
     ],
     # 重新指定schema_class的配置, 否则访问 /docs/时报错
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    'EXCEPTION_HANDLER': 'utils.exception.handler.api_exception_handler'
+    # 'EXCEPTION_HANDLER': 'utils.exception.handler.api_exception_handler'
 }
 
 SIMPLE_JWT = {
@@ -205,3 +208,18 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(minutes=env.int("REFRESH_TOKEN_LIFETIME")),
     'ROTATE_REFRESH_TOKENS': True,
 }
+
+#
+# sentry_sdk.init(
+#     dsn="http://a0455dc257fa4673b9a866f93ab3aaed@192.168.85.128:9000/4",
+#     integrations=[DjangoIntegration()],
+#
+#     # Set traces_sample_rate to 1.0 to capture 100%
+#     # of transactions for performance monitoring.
+#     # We recommend adjusting this value in production.
+#     traces_sample_rate=1.0,
+#
+#     # If you wish to associate users to errors (assuming you are using
+#     # django.contrib.auth) you may enable sending PII data.
+#     send_default_pii=True
+# )
