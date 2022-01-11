@@ -28,6 +28,7 @@ urlpatterns = i18n_patterns(
 # URL前缀：http://127.0.0.1:8000/
 urlpatterns += [
     path('conf/', include(conf_urlpatterns)),
+    path('api/', include(api_urlpatterns)),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
