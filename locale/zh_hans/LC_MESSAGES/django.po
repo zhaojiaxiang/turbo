@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-15 14:57+0800\n"
+"POT-Creation-Date: 2022-01-11 19:50+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,10 +115,10 @@ msgstr "Database operation exception"
 msgid "db unique ng"
 msgstr "Primary key conflict(or Violation of uniqueness constraint)"
 
-#: .\carrera\settings.py:157
+#: .\turbo\settings.py:168
 msgid "English"
 msgstr "英文"
 
-#: .\carrera\settings.py:158
+#: .\turbo\settings.py:169
 msgid "中文"
 msgstr "中文"
