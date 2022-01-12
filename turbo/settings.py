@@ -155,7 +155,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # django 多语言支持配置
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
