@@ -166,7 +166,7 @@ LOCALE_PATHS = (
 
 LANGUAGES = (
     ('en', _('English')),
-    ('zh_hans', _('中文')),
+    ('zh-Hans', _('中文')),
 )
 
 # python manage.py makemessages -l zh_hans --ignore=venv/*
