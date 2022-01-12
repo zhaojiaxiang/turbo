@@ -166,7 +166,7 @@ LOCALE_PATHS = (
 
 LANGUAGES = (
     ('en', _('English')),
-    ('zh-hans', _('中文')),
+    ('zh_hans', _('中文')),
 )
 
 # python manage.py makemessages -l zh_hans --ignore=venv/*
@@ -199,7 +199,7 @@ REST_FRAMEWORK = {
     ],
     # 重新指定schema_class的配置, 否则访问 /docs/时报错
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    # 'EXCEPTION_HANDLER': 'utils.exception.handler.api_exception_handler'
+    'EXCEPTION_HANDLER': 'utils.exception.handler.api_exception_handler'
 }
 
 SIMPLE_JWT = {
