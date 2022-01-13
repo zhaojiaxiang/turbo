@@ -405,12 +405,12 @@ class QaProjectDataStatisticsSerializer(serializers.ModelSerializer):
     def get_total_lines(self, obj):
         qa_head = QaHead.objects.values('fslipno').annotate(sum=Sum('fttlcodelines')).filter(
             fslipno__exact=obj['fslipno'])
-        return qa_head[0]['sum']
+        return qa_head[0]['sum'] if qa_head else 0
 
     def get_modify_lines(self, obj):
         qa_head = QaHead.objects.values('fslipno').annotate(sum=Sum('fmodifiedlines')).filter(
             fslipno__exact=obj['fslipno'])
-        return qa_head[0]['sum']
+        return qa_head[0]['sum'] if qa_head else 0
 
     def get_target_tests(self, obj):
         qa_heads = QaHead.objects.filter(fslipno__exact=obj['fslipno'])
