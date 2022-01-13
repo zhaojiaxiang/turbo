@@ -7,7 +7,10 @@ from qa.models import QaDetail, QaHead
 def get_liaison_with_list(slip_no):
     liaison_list = []
     liaison_dict = {}
-    liaison = Liaisons.objects.get(fslipno__exact=slip_no)
+    try:
+        liaison = Liaisons.objects.get(fslipno__exact=slip_no)
+    except Liaisons.DoesNotExist:
+        return []
 
     liaison_dict['row_1'] = '订单号'
     liaison_dict['row_2'] = liaison.fodrno
