@@ -20,13 +20,14 @@ class PersonDevelopDetail(APIView):
 
         month_dict = db_connection_execute(month_sql, 'dict')
 
+        # todo 此处统计忽略了 type = '维护阶段障碍'
         total_sql = f"""
                     select slip_count
                         from (
                                  select date_format(fcreatedte, '%Y-%m') create_date,
                                         count(*)                         slip_count
                                  from liaisonf
-                                 where fassignedto = '{user}' 
+                                 where fassignedto = '{user}' and ftype <> '维护阶段障碍'
                                  group by create_date
                                  order by create_date) a"""
 
@@ -131,7 +132,7 @@ class OrganizationDevelopDetail(APIView):
                                          select date_format(fcreatedte, '%Y-%m') create_date,
                                                 count(*)                         slip_count
                                          from liaisonf
-                                         where forganization = '{organization}' 
+                                         where forganization = '{organization}' and ftype <> '维护阶段障碍'
                                          group by create_date
                                          order by create_date) a"""
 
