@@ -104,8 +104,16 @@ class BatchNewQaDetail(APIView):
             user = request.user
             batch_data = request.data['data']
 
+            special_symbols = ('+', ' ', '/', '?', '%', '#', '&', '=')
+
             batch_qa = []
             for qa in batch_data:
+
+                for symbol in special_symbols:
+                    if symbol in qa['fclass1']:
+                        return APIResponse(f'分类1中不可包含特殊符号{symbol}')
+                    if symbol in qa['fclass2']:
+                        return APIResponse(f'分类2中不可包含特殊符号{symbol}')
                 batch_qa.append(
                     QaDetail(fclass1=qa['fclass1'], fclass2=qa['fclass2'], fregression=qa['fregression'],
                              fcontent=qa['fcontent'], fsortrule=qa['fsortrule'], qahf_id=qa['qahf'], fimpusr=user.name,

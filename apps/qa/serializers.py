@@ -471,6 +471,17 @@ class QaDetailSerializer(serializers.ModelSerializer):
         # if is_exist.count() > 0:
         #     raise serializers.ValidationError("该测试项已经在该对象下存在")
         try:
+            fclass1 = validated_data.get('fclass1')
+            fclass2 = validated_data.get('fclass2')
+
+            special_symbols = ('+', ' ', '/', '?', '%', '#', '&', '=')
+
+            for symbol in special_symbols:
+                if symbol in fclass1:
+                    raise serializers.ValidationError(f'分类1中不可包含特殊符号{symbol}')
+                if symbol in fclass2:
+                    raise serializers.ValidationError(f'分类2中不可包含特殊符号{symbol}')
+
             user = self.context['request'].user
             qadetail = QaDetail.objects.create(**validated_data)
             qadetail.fimpusr = user.name
@@ -483,8 +494,18 @@ class QaDetailSerializer(serializers.ModelSerializer):
 
     @transaction.atomic()
     def update(self, instance, validated_data):
+        fclass1 = validated_data.get('fclass1')
+        fclass2 = validated_data.get('fclass2')
         approval = instance.fapproval
         result = instance.fresult
+
+        special_symbols = ('+', ' ', '/', '?', '%', '#', '&', '=')
+
+        for symbol in special_symbols:
+            if symbol in fclass1:
+                raise serializers.ValidationError(f'分类1中不可包含特殊符号{symbol}')
+            if symbol in fclass2:
+                raise serializers.ValidationError(f'分类2中不可包含特殊符号{symbol}')
 
         if approval == "Y":
             raise serializers.ValidationError('已经审核的测试项不可修改')
