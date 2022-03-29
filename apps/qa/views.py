@@ -111,8 +111,12 @@ class BatchNewQaDetail(APIView):
 
                 for symbol in special_symbols:
                     if symbol in qa['fclass1']:
+                        if symbol == ' ':
+                            symbol = ' (空格)'
                         return APIResponse(f'分类1中不可包含特殊符号{symbol}')
                     if symbol in qa['fclass2']:
+                        if symbol == ' ':
+                            symbol = ' (空格)'
                         return APIResponse(f'分类2中不可包含特殊符号{symbol}')
                 batch_qa.append(
                     QaDetail(fclass1=qa['fclass1'], fclass2=qa['fclass2'], fregression=qa['fregression'],

@@ -295,6 +295,9 @@ class PCLQaClass1Serializer(serializers.ModelSerializer):
             class1['ng'] = QaDetail.objects.filter(qahf_id__exact=obj.id, fclass1__exact=class1['fclass1'],
                                                    fresult__exact='NG').count()
 
+            class1['ng_cnt'] = QaDetail.objects.filter(qahf_id__exact=obj.id, fclass1__exact=class1['fclass1'],
+                                                       fresult__contains='NG').count()
+
         return qadetail
 
 
@@ -331,6 +334,9 @@ class PCLQaClass2Serializer(serializers.ModelSerializer):
 
             class2['ng'] = QaDetail.objects.filter(qahf_id__exact=qahf, fclass1__exact=class1,
                                                    fclass2__exact=class2['fclass2'], fresult__exact='NG').count()
+
+            class2['ng_cnt'] = QaDetail.objects.filter(qahf_id__exact=qahf, fclass1__exact=class1,
+                                                       fclass2__exact=class2['fclass2'], fresult__contains='NG').count()
 
         return qadetail
 
@@ -503,8 +509,12 @@ class QaDetailSerializer(serializers.ModelSerializer):
 
         for symbol in special_symbols:
             if symbol in fclass1:
+                if symbol == ' ':
+                    symbol = ' (空格)'
                 raise serializers.ValidationError(f'分类1中不可包含特殊符号{symbol}')
             if symbol in fclass2:
+                if symbol == ' ':
+                    symbol = ' (空格)'
                 raise serializers.ValidationError(f'分类2中不可包含特殊符号{symbol}')
 
         if approval == "Y":
