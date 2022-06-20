@@ -21,13 +21,12 @@ from turbo import settings
 from turbo.urlpatterns import api_urlpatterns, conf_urlpatterns
 
 # URL前缀：http://127.0.0.1:8000/zh-hans/
-# urlpatterns = i18n_patterns(
-#     path('api/', include(api_urlpatterns)),
-# )
+urlpatterns = i18n_patterns(
+    path('api/', include(api_urlpatterns)),
+)
 
 # URL前缀：http://127.0.0.1:8000/
-urlpatterns = [
-    path('api/', include(api_urlpatterns)),
+urlpatterns += [
     path('conf/', include(conf_urlpatterns)),
     path('i18n/', include('django.conf.urls.i18n')),
     # path('api/', include(api_urlpatterns)),
